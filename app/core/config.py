@@ -16,10 +16,19 @@ class Config:
 
 class DevelopmentConfig(Config):
     DEBUG = True
-    DATABASE_URI = os.environ.get('DEV_DATABASE_URI', 'localhost:5432/devdb')
+
+    @classmethod
+    def get_db_connections(cls):
+        return {
+            "erc": os.environ.get('DB_ERC_URI')
+        }
 
 class ProductionConfig(Config):
     DEBUG = False
-    REQUIRED_VARS = ["DATABASE_URI"]
-    
-    DATABASE_URI = os.environ.get('DATABASE_URI')
+    REQUIRED_VARS = ["DB_ERC_URI"]
+
+    @classmethod
+    def get_db_connections(cls):
+        return {
+            "erc": os.environ.get('DB_ERC_URI')
+        }

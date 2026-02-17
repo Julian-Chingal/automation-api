@@ -9,8 +9,9 @@ from fastapi import FastAPI
 from api.v1.api import api_router
 from core.config import Config, DevelopmentConfig, ProductionConfig
 from core.logger import configure_logging
+from core.database import db_manager
 
-# 1. Inicialización temprana de logs y entorno
+# Inicialización de logs y entorno
 load_dotenv()
 configure_logging()
 logger = logging.getLogger(__name__)
@@ -45,6 +46,7 @@ def get_validated_config() -> Tuple[Type[Config], str]:
 def create_app() -> FastAPI:
     """Fábrica de la aplicación FastAPI."""
     config, env_name = get_validated_config()
+    db_manager.init_databases(config.get_db_connections())
     
     app = FastAPI(
         title="API Automatizacion de Procesos",
@@ -61,5 +63,5 @@ def create_app() -> FastAPI:
 try:
     app = create_app()
 except Exception as e:
-    logger.critical(f"💥 Fallo catastrófico al instanciar FastAPI: {e}")
+    logger.critical(f"Fallo catastrófico al instanciar FastAPI: {e}")
     sys.exit(1)
