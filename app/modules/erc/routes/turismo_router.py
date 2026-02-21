@@ -11,4 +11,8 @@ def get_db_manager(request: Request):
 
 @router.post("/turismo",response_model=UploadResponse)
 async def upload_turismo_endpoint():
-    return {"message": "Upload successful"}
+    return UploadResponse(
+        message="Archivo cargado exitosamente.",
+        rows_uploaded=2,
+        destination_table="visitas_turismo",
+    )
