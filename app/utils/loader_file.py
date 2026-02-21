@@ -1,5 +1,5 @@
-import polars as pl
 from fastapi import UploadFile
+import polars as pl
 import io
 
 SUPPORTED_EXTENSIONS = {
