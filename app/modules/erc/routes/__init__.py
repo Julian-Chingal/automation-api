@@ -1,7 +1,10 @@
 from fastapi import APIRouter
-from transformers import TurismoTransformer
+
+from .turismo_router import router as turismo_router
 
 router = APIRouter()
+
+router.include_router(turismo_router)
 
 @router.post("/bienes")
 async def post_bienes():
@@ -15,9 +18,6 @@ async def post_servicios():
 async def post_inversion():
     return {"message": "Lista de inversiones"}
 
-@router.post("/turismo")
-async def post_turismo():
-    return {"message": "Lista de turismo"}
 
 @router.post("/configuracion")
 async def post_configuracion():
