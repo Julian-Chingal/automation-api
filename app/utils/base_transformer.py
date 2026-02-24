@@ -43,6 +43,7 @@ class BaseTransformer(ABC):
         if missing_source_cols:
             raise ValueError(f"Missing source columns for mapping: {missing_source_cols}")
         
+        df = df.select(list(self.column_mapping.keys()))
         return df.rename(self.column_mapping)
 
     

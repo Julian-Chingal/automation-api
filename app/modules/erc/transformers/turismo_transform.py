@@ -5,26 +5,31 @@ class TurismoTransformer(BaseTransformer):
     required_columns = {
         "anio",
         "pais",
+        "codigo_pais",
         "viajeros",
         "mes",
         "flujo",
-        "codigo_pais",
     }
 
     column_mapping = {
         "año": "anio",
-        "país": "pais",
-        "viajeros": "viajeros",
         "mes": "mes",
-        "flujo": "flujo",
-        "código_pais": "codigo_pais",
+        "cod_país":"codigo_pais",
+        "país_turismo": "pais",
+        "viajeros": "viajeros",
+        "flujo_turismo": "flujo",
     }
 
     def __init__(self):
         super().__init__(destination_table="visitas_turismo")
 
     def _transform(self, df: pl.DataFrame) -> pl.DataFrame:
-        return df
+        group_cols = ["anio", "mes", "codigo_pais", "pais", "flujo"]
+        df_aggregated = df.group_by(group_cols).agg(
+            pl.col("viajeros").sum()
+        )
+        
+        return df_aggregated
     
 
     

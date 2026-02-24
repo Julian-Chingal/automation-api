@@ -6,6 +6,7 @@ SUPPORTED_EXTENSIONS = {
     "csv": pl.read_csv,
     "xlsx": pl.read_excel,
     "xls": pl.read_excel,
+    "xlsb": pl.read_excel,
 }
 
 async def load_file(file: UploadFile) -> pl.DataFrame:
