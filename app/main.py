@@ -10,6 +10,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
 
 from api.v1.api import api_router
+from core.handlers import register_exception_handlers
 from core.config import Config, DevelopmentConfig, ProductionConfig
 from core.db_manager import DBManager
 from core.logger import configure_logging
@@ -84,6 +85,9 @@ def create_app() -> FastAPI:
         redoc_url="/redoc" if env_name == "development" else None,
         openapi_url="/openapi.json" if env_name == "development" else None,
     )
+
+    #----Global Handlers------------------------
+    register_exception_handlers(app)
 
     # ── Middlewares ───────────────────────────
     app.add_middleware(

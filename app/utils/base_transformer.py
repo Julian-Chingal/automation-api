@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from core.exceptions import *
 import polars as pl
 import re
 
@@ -21,7 +22,7 @@ class BaseTransformer(ABC):
             df = self._transform(df)
             return df
         except Exception as e:
-            raise RuntimeError(f"Error during transformation: {e}") from e
+            raise TransformationError(f"Error during transformation: {e}") from e
             
     
     def _clean(self, df: pl.DataFrame) -> pl.DataFrame:
@@ -41,7 +42,7 @@ class BaseTransformer(ABC):
         missing_source_cols = set(self.column_mapping.keys()) - set(df.columns)
 
         if missing_source_cols:
-            raise ValueError(f"Missing source columns for mapping: {missing_source_cols}")
+            raise MissingSourceColumnsError(list(missing_source_cols))
         
         df = df.select(list(self.column_mapping.keys()))
         return df.rename(self.column_mapping)
