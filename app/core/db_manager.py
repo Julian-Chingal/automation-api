@@ -4,6 +4,7 @@ from typing import Dict
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from core.exceptions import DatabaseAliasNotRegisteredError
 
 
 class DBManager:
@@ -41,7 +42,7 @@ class DBManager:
     def get_session(self, alias: str): 
         """Context manager que entrega una sesión lista con commit/rollback automático."""
         if alias not in self._sessions:
-            raise ValueError(f"Alias '{alias}' no registrado.")
+            raise DatabaseAliasNotRegisteredError(alias)
 
         session = self._sessions[alias]()
         try:
@@ -56,7 +57,7 @@ class DBManager:
     def get_engine(self, alias: str):
         """Devuelve el engine asociado al alias (útil para pandas to_sql)."""
         if alias not in self._engines:
-            raise ValueError(f"Alias '{alias}' no registrado.")
+            raise DatabaseAliasNotRegisteredError(alias)
         return self._engines[alias]
 
     def dispose(self, alias: str):

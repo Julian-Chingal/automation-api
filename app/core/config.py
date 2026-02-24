@@ -1,5 +1,6 @@
 import os
 from typing import Dict, List
+from core.exceptions import ConfigurationError
 
 class Config:
     """Clase base de configuración."""
@@ -30,8 +31,9 @@ class Config:
 
         all_missing = missing + missing_db
         if all_missing:
-            raise EnvironmentError(
-                f"Faltan las siguientes variables de entorno: {', '.join(all_missing)}"
+            raise ConfigurationError(
+                f"Missing the following environment variables: {', '.join(all_missing)}",
+                details={"missing_variables": all_missing}
             )
 
     @classmethod

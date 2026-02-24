@@ -14,6 +14,7 @@ from core.handlers import register_exception_handlers
 from core.config import Config, DevelopmentConfig, ProductionConfig
 from core.db_manager import DBManager
 from core.logger import configure_logging
+from core.exceptions import ConfigurationError
 
 # Inicialización de logs y entorno
 load_dotenv()
@@ -43,8 +44,8 @@ def get_validated_config() -> Tuple[Type[Config], str]:
     try:
         config_class.validate()
         return config_class, env
-    except EnvironmentError as e:
-        logger.critical(f"Error de validación de variables de entorno: {e}")
+    except ConfigurationError as e:
+        logger.critical(f"Errores en la validación de configuración: {e.message}")
         sys.exit(1)
 
 def create_app() -> FastAPI:

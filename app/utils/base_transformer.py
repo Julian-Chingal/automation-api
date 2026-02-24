@@ -1,7 +1,11 @@
 from abc import ABC, abstractmethod
-from core.exceptions import *
+from core.exceptions import (
+    AppException,
+    TransformationError,
+    MissingSourceColumnsError,
+    MissingRequiredColumnsError,
+)
 import polars as pl
-import re
 
 class BaseTransformer(ABC):
     required_columns: set[str] = set()
@@ -21,8 +25,14 @@ class BaseTransformer(ABC):
             self._validate_required_columns(df)
             df = self._transform(df)
             return df
+        except AppException:
+            raise
+
         except Exception as e:
-            raise TransformationError(f"Error during transformation: {e}") from e
+            raise TransformationError(
+                message="Unexpected error during transformation.",
+                details={"original_error": str(e)},
+            ) from e
             
     
     def _clean(self, df: pl.DataFrame) -> pl.DataFrame:
@@ -54,7 +64,7 @@ class BaseTransformer(ABC):
         """
         missing_columns = self.required_columns - set(df.columns)
         if missing_columns:
-            raise ValueError(f"Missing required columns: {missing_columns}")
+            raise MissingRequiredColumnsError(list(missing_columns))
     
     @abstractmethod
     def _transform(self, df: pl.DataFrame) -> pl.DataFrame:

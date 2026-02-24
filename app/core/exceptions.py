@@ -97,14 +97,48 @@ class DuplicateKeyError(AppException):
 
 
 #? =========================
+#? FILE HANDLING ERRORS
+#? =========================
+
+class UnsupportedFileFormatError(AppException):
+    def __init__(self, extension: str, supported_formats: list[str]):
+        super().__init__(
+            message=f"Unsupported file format: '.{extension}'.",
+            error_code="FILE_001",
+            status_code=400,
+            details={"extension": extension, "supported_formats": supported_formats},
+        )
+
+
+class FileReadError(AppException):
+    def __init__(self, filename: str, details: Optional[Dict[str, Any]] = None):
+        super().__init__(
+            message=f"Error reading file '{filename}'.",
+            error_code="FILE_002",
+            status_code=400,
+            details=details or {"filename": filename},
+        )
+
+
+#? =========================
 #? CONFIGURATION ERRORS
 #? =========================
+
+class ConfigurationError(AppException):
+    def __init__(self, message: str, details: Optional[Dict[str, Any]] = None):
+        super().__init__(
+            message=message,
+            error_code="CONFIG_001",
+            status_code=500,
+            details=details,
+        )
+
 
 class DatabaseAliasNotRegisteredError(AppException):
     def __init__(self, alias: str):
         super().__init__(
             message=f"Database alias '{alias}' is not registered.",
-            error_code="CONFIG_001",
+            error_code="CONFIG_002",
             status_code=500,
             details={"alias": alias},
         )

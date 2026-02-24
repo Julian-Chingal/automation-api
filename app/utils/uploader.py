@@ -1,5 +1,6 @@
 from .base_transformer import BaseTransformer
 from core.db_manager import DBManager
+from core.exceptions import DatabaseInsertError
 from sqlalchemy import text
 import polars as pl
 
@@ -29,7 +30,14 @@ def upload_dataframe(
         VALUES ({placeholders})
     """)
 
-    with engine.begin() as conn:
-        result = conn.execute(sql, rows)
+    try:
+        with engine.begin() as conn:
+            result = conn.execute(sql, rows)
+    except Exception as e:
+        raise DatabaseInsertError({
+            "table": transformer.destination_table,
+            "rows_attempted": len(rows),
+            "error": str(e)
+        }) from e
         
     return result.rowcount
