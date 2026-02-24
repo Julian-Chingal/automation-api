@@ -55,6 +55,20 @@ class MissingRequiredColumnsError(AppException):
         )
 
 
+class InvalidHeadersError(AppException):
+    def __init__(self, missing_columns: list[str], file_columns: list[str]):
+        super().__init__(
+            message="Invalid file headers. The first row must contain the expected column names.",
+            error_code="TRANSFORM_005",
+            status_code=400,
+            details={
+                "expected_columns": missing_columns,
+                "file_columns": file_columns,
+                "help": "Make sure the headers are in the first row of your file."
+            },
+        )
+
+
 class EmptyFileError(AppException):
     def __init__(self):
         super().__init__(

@@ -1,4 +1,7 @@
-from .transformers.turismo_transform import TurismoTransformer
+from .transformers import (
+    TurismoTransformer,
+    InversionTransformer
+)
 from utils.uploader import upload_dataframe
 from core.db_manager import DBManager
 import polars as pl
@@ -9,6 +12,14 @@ def turismo_service(df: pl.DataFrame, db_manager: DBManager) -> int:
     return upload_dataframe(
         df,
         TurismoTransformer(),
+        db_manager,
+        ALIAS
+    )
+
+def inversion_service(df: pl.DataFrame, db_manager: DBManager) -> int:
+    return upload_dataframe(
+        df,
+        InversionTransformer(),
         db_manager,
         ALIAS
     )

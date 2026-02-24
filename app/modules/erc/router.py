@@ -1,7 +1,10 @@
 from fastapi import APIRouter, Depends, File, Request, UploadFile
 
 from .schema import UploadResponse
-from .service import turismo_service
+from .service import (
+    turismo_service,
+    inversion_service,
+    )
 from utils.loader_file import load_file
 
 router = APIRouter()
@@ -16,6 +19,21 @@ async def upload_turismo(
 ):
     df = await load_file(file)
     rows = turismo_service(df, db_manager)
+
+    return {
+        "status": True,
+        "message": "Se actualizo el registro de turismo",
+        "rows_uploaded": rows,
+        "destination_table": "visitas_turismo"
+    }
+
+@router.post("/inversion", response_model=UploadResponse, description="Ruta para actualizar los datos de inversion")
+async def upload_inversion(
+    file: UploadFile = File(...),
+    db_manager = Depends(get_db_manager)
+):
+    df = await load_file(file)
+    rows = inversion_service(df, db_manager)
 
     return {
         "status": True,

@@ -4,8 +4,10 @@ from core.exceptions import (
     TransformationError,
     MissingSourceColumnsError,
     MissingRequiredColumnsError,
+    InvalidHeadersError,
 )
 import polars as pl
+import unicodedata
 
 class BaseTransformer(ABC):
     required_columns: set[str] = set()
@@ -21,6 +23,7 @@ class BaseTransformer(ABC):
         """
         try:
             df = self._clean(df)
+            self._validate_headers(df)
             df = self._map_columns(df)
             self._validate_required_columns(df)
             df = self._transform(df)
@@ -36,11 +39,31 @@ class BaseTransformer(ABC):
             
     
     def _clean(self, df: pl.DataFrame) -> pl.DataFrame:
-        new_columns = [
-            col.strip().lower().replace(" ", "_")
-            for col in df.columns
-        ]
+        def normalize_column_name(col: str) -> str:
+            # Remover acentos
+            col = unicodedata.normalize("NFD", col)
+            col = "".join(c for c in col if unicodedata.category(c) != "Mn")
+            # Convertir a minúsculas y reemplazar espacios
+            col = col.strip().lower().replace(" ", "_")
+            return col
+        
+        new_columns = [normalize_column_name(col) for col in df.columns]
         return df.rename(dict(zip(df.columns, new_columns)))
+    
+    def _validate_headers(self, df: pl.DataFrame):
+        """
+        Valida que el archivo contenga todos los encabezados (headers) esperados en la primera fila.
+        Si el archivo no tiene los headers esperados, lanza InvalidHeadersError.
+        """
+        if not self.column_mapping:
+            return
+        
+        expected_columns = set(self.column_mapping.keys())
+        file_columns = set(df.columns)
+        
+        missing_cols = expected_columns - file_columns
+        if missing_cols:
+            raise InvalidHeadersError(list(missing_cols), list(file_columns))
     
     def _map_columns(self, df: pl.DataFrame):
         """
