@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, File, Request, UploadFile
 
-from .schema import UploadResponse
+from  utils.schema import UploadResponse
 from .service import (
     turismo_service,
     inversion_service,
@@ -22,9 +22,14 @@ async def upload_turismo(
     df = await load_file(file)
     rows = turismo_service(df, db_manager)
 
+    if rows != 0:
+        message = "Se actualizo el registro de turismo"
+    else:
+        message = "No hay cambios que subir"
+
     return {
         "status": True,
-        "message": "Se actualizo el registro de turismo",
+        "message": message,
         "rows_uploaded": rows,
         "destination_table": "visitas_turismo"
     }
@@ -37,9 +42,14 @@ async def upload_inversion(
     df = await load_file(file)
     rows = inversion_service(df, db_manager)
 
+    if rows != 0:
+        message = "Se actualizo el registro de inversiones"
+    else:
+        message = "No hay cambios que subir"
+
     return {
         "status": True,
-        "message": "Se actualizo el registro de inversion",
+        "message": message,
         "rows_uploaded": rows,
         "destination_table": "ban_rep_inversion"
     }
@@ -52,9 +62,14 @@ async def upload_servicios(
     df = await load_file(file)
     rows = servicios_service(df, db_manager)
 
+    if rows != 0:
+        message = "Se actualizo el registro de servicios"
+    else:
+        message = "No hay cambios que subir"
+
     return {
         "status": True,
-        "message": "Se actualizo el registro de servicios",
+        "message": message,
         "rows_uploaded": rows,
         "destination_table": "emces_servicios"
     }
@@ -70,7 +85,7 @@ async def upload_servicios(
     if rows != 0:
         message = "Se actualizo el registro de bienes"
     else:
-        message = "No se hay cambios que subir"
+        message = "No hay cambios que subir"
 
     return {
         "status": True,
