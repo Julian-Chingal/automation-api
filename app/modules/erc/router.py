@@ -4,7 +4,8 @@ from .schema import UploadResponse
 from .service import (
     turismo_service,
     inversion_service,
-    servicios_service
+    servicios_service,
+    bienes_service
     )
 from utils.loader_file import load_file
 
@@ -54,6 +55,26 @@ async def upload_servicios(
     return {
         "status": True,
         "message": "Se actualizo el registro de servicios",
+        "rows_uploaded": rows,
+        "destination_table": "emces_servicios"
+    }
+
+@router.post("/bienes", response_model=UploadResponse, description="Ruta para actualizar los datos de bienes")
+async def upload_servicios(
+    file: UploadFile = File(...),
+    db_manager = Depends(get_db_manager)
+):
+    df = await load_file(file)
+    rows = bienes_service(df, db_manager)
+
+    if rows != 0:
+        message = "Se actualizo el registro de bienes"
+    else:
+        message = "No se hay cambios que subir"
+
+    return {
+        "status": True,
+        "message": message,
         "rows_uploaded": rows,
         "destination_table": "emces_servicios"
     }

@@ -1,7 +1,8 @@
 from .transformers import (
     TurismoTransformer,
     InversionTransformer,
-    ServiciosTransformer
+    ServiciosTransformer,
+    BienesTransformer
 )
 from utils.uploader import upload_dataframe
 from core.db_manager import DBManager
@@ -29,6 +30,14 @@ def servicios_service(df: pl.DataFrame, db_manager: DBManager) -> int:
     return upload_dataframe(
         df,
         ServiciosTransformer(),
+        db_manager,
+        ALIAS
+    )
+
+def bienes_service(df: pl.DataFrame, db_manager: DBManager) -> int:
+    return upload_dataframe(
+        df,
+        BienesTransformer(),
         db_manager,
         ALIAS
     )
