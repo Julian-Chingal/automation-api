@@ -3,7 +3,7 @@ from utils.base_transformer import BaseTransformer
 import polars as pl
 import re
 
-YEAR_COL_PATTERN = re.compile(r"^\d{4}(_?-P)?$")
+YEAR_COL_PATTERN = re.compile(r"^\d{4}(-p)?$", re.IGNORECASE)
 
 class BienesTransformer(BaseTransformer):
     required_columns = {"cod_pais", "nandina", "departamento", "flujo", "periodo"}
@@ -23,20 +23,17 @@ class BienesTransformer(BaseTransformer):
     def __init__(self):
         super().__init__(destination_table="comercio_bienes")
 
-    def _validate_headers(self, df):
+    def _validate_headers(self, df: pl.DataFrame):
+        if not self.column_mapping:
+            return
+        
+        expected_columns = set(self.column_mapping.keys())
         file_columns = set(df.columns)
         
-        missing_required = self.required_columns - file_columns
-        if missing_required:
-            raise InvalidHeadersError(list(missing_required), list(file_columns))
+        missing_cols = expected_columns - file_columns
+        if missing_cols:
+            raise InvalidHeadersError(list(missing_cols), list(file_columns))
         
-        year_cols = [c for c in df.columns if YEAR_COL_PATTERN.match(c)]
-        if not year_cols:
-            raise InvalidHeadersError(
-                ["Al menos una columna de año (1994, 1995, ..., 2025, etc)"],
-                list(file_columns)
-            )
-    
     def _map_columns(self, df):
         # Verificar que existan las columnas de mapeo requeridas
         static_source_cols = list(self.column_mapping.keys())
@@ -84,8 +81,8 @@ class BienesTransformer(BaseTransformer):
         # Extraer el tipo de dato (p o vacío)
         df = df.with_columns(
             pl.col("anio_col")
-              .str.contains(r"-P$")
-              .alias("es_preliminar")
+            .str.contains(r"(?i)-p$")
+            .alias("es_preliminar")
         )
         
         # Descartar la columna fecha_col original, ya no necesaria
