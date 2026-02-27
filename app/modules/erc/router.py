@@ -91,5 +91,5 @@ async def upload_servicios(
         "status": True,
         "message": message,
         "rows_uploaded": rows,
-        "destination_table": "emces_servicios"
+        "destination_table": "comercio_bienes"
     }
