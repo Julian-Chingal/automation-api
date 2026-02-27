@@ -12,10 +12,10 @@ class TurismoTransformer(BaseTransformer):
     }
 
     column_mapping = {
-        "año": "anio",
+        "ano": "anio",
         "mes": "mes",
-        "cod_país":"codigo_pais",
-        "país_turismo": "pais",
+        "cod_pais":"codigo_pais",
+        "pais_turismo": "pais",
         "viajeros": "viajeros",
         "flujo_turismo": "flujo",
     }
