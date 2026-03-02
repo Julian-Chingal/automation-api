@@ -100,7 +100,6 @@ class DatabaseInsertError(AppException):
             details=details,
         )
 
-
 class DuplicateKeyError(AppException):
     def __init__(self):
         super().__init__(
@@ -109,6 +108,13 @@ class DuplicateKeyError(AppException):
             status_code=409,
         )
 
+class DatabaseDeleteError(AppException):
+    def __init__(self,  details: Optional[Dict[str, Any]] = None):
+        super().__init__(
+            message = "An error occurred while deleting data into the database.", 
+            error_code = "DB_004", 
+            status_code = 400, 
+            details = details)
 
 #? =========================
 #? FILE HANDLING ERRORS

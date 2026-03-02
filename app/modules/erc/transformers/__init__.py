@@ -2,3 +2,4 @@ from .inversion_transform import *
 from .turismo_transform import *
 from .servicios_transform import *
 from .bienes_transform import *
+from .paises_transform import *

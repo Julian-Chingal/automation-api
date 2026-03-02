@@ -2,9 +2,10 @@ from .transformers import (
     TurismoTransformer,
     InversionTransformer,
     ServiciosTransformer,
-    BienesTransformer
+    BienesTransformer,
+    PaisesTransformer,
 )
-from utils.uploader import upload_dataframe
+from utils.uploader import upload_dataframe, full_reload_dataframe
 from core.db_manager import DBManager
 import polars as pl
 
@@ -38,6 +39,14 @@ def bienes_service(df: pl.DataFrame, db_manager: DBManager) -> int:
     return upload_dataframe(
         df,
         BienesTransformer(),
+        db_manager,
+        ALIAS
+    )
+
+def paises_service(df: pl.DataFrame, db_manager: DBManager) -> int: 
+    return full_reload_dataframe(
+        df,
+        PaisesTransformer(),
         db_manager,
         ALIAS
     )
