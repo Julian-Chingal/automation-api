@@ -36,15 +36,15 @@ class EjecucionPresupuestalTransformer(BaseTransformer):
     }
 
     # Única fuente de verdad para la regla de agregación
-    NON_AGGREGATED_SHEETS = {"Ejecucion desagregada- Minc"}
+    NON_AGGREGATED_SHEETS = {"ejecuciondesagregada-minc"}
 
     sheets: dict[str, str] = {
-        "INM": "INM",
-        "Mincit": "MINCIT",
-        "JCC": "JCC",
-        "SuperSociedades": "SUPERSOC",
-        "Superindustria": "SIC",
-        "Ejecucion desagregada- Minc": "MINCIT",
+        "inm": "INM",
+        "mincit": "MINCIT",
+        "jcc": "JCC",
+        "supersociedades": "SUPERSOC",
+        "superindustria": "SIC",
+        "ejecuciondesagregada-minc": "MINCIT",
     }
 
     def __init__(self, sheet_name: str | None = None):

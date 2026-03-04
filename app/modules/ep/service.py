@@ -18,6 +18,7 @@ async def ejecucion_presupuestal_service(
         sheets= set(EjecucionPresupuestalTransformer.sheets.keys()), 
         skip_rows= 3
     )
+    
     results: dict[str, int] = {}
 
     for sheet_name, df in sheets_data.items():

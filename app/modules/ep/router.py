@@ -27,6 +27,6 @@ async def upload_ejecucion_presupuestal(
         "status": True,
         "message": f"Procesadas {len(results)} entidades",
         "rows_uploaded": total_rows,
-        "destination_table": "ejecucion_presupuestal",
+        "destination_table": "ejecucion_presupuestal_p",
         "detail": sheets_summary,
     }

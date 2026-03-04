@@ -148,6 +148,16 @@ class FileReadSheetsError(AppException):
             details=details or {"filename": filename},
         )
 
+class FileExistsError(AppException):
+     def __init__(self, filename: str, details: Optional[Dict[str, Any]] = None):
+        super().__init__(
+            message=f"Error reading file '{filename}'",
+            error_code="FILE_004",
+            status_code=400,
+            details=details or {"filename": filename},
+        )
+
+
 #? =========================
 #? CONFIGURATION ERRORS
 #? =========================

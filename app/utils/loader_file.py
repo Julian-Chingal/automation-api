@@ -1,4 +1,4 @@
-from core.exceptions import UnsupportedFileFormatError, FileReadError, FileReadSheetsError
+from core.exceptions import UnsupportedFileFormatError, FileReadError, FileReadSheetsError, FileExistsError
 from fastapi import UploadFile
 import polars as pl
 import unicodedata
@@ -94,13 +94,13 @@ async def load_all_sheets(
             header = [str(col).strip().lower() for col in header]
             df = df.slice(1).rename(dict(zip(df.columns, header)))
             
-            result[original_name] = df
+            result[norm_name] = df
             buffer.seek(0)
         
         except Exception as e:
             raise FileExistsError(
                 extension,
-                 {"original_error": f"Error leyendo hoja '{original_name}': {str(e)}"},
+                 {"original_error": f"Error leyendo hoja '{norm_name}': {str(e)}"},
             )
         
     return result
