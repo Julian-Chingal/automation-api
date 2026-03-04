@@ -1,5 +1,4 @@
 from fastapi import APIRouter, Depends, File, Request, UploadFile
-
 from  utils.schema import UploadResponse
 from .service import (
     turismo_service,
@@ -76,7 +75,7 @@ async def upload_servicios(
     }
 
 @router.post("/bienes", response_model=UploadResponse, description="Ruta para actualizar los datos de bienes")
-async def upload_servicios(
+async def upload_bienes(
     file: UploadFile = File(...),
     db_manager = Depends(get_db_manager)
 ):
@@ -96,7 +95,7 @@ async def upload_servicios(
     }
 
 @router.post("/paises", response_model=UploadResponse, description="Ruta para actualizar los datos de los paises")
-async def upload_servicios(
+async def upload_paises(
     file: UploadFile = File(...),
     db_manager = Depends(get_db_manager)
 ):
