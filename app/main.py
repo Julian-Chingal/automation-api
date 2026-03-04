@@ -5,11 +5,12 @@ from contextlib import asynccontextmanager
 from typing import Tuple, Type
 
 from dotenv import load_dotenv
-from fastapi import FastAPI
+from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
 
 from api.v1.api import api_router
+from core.security import api_key_auth
 from core.handlers import register_exception_handlers
 from core.config import Config, DevelopmentConfig, ProductionConfig
 from core.db_manager import DBManager
@@ -105,7 +106,11 @@ def create_app() -> FastAPI:
         )
 
     # ── Rutas ─────────────────────────────────
-    app.include_router(api_router, prefix="/api/v1")
+    app.include_router(
+        api_router, 
+        prefix="/api/v1", 
+        dependencies=[Depends(api_key_auth)]
+    )
 
     return app
 
