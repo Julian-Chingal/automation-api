@@ -139,6 +139,14 @@ class FileReadError(AppException):
             details=details or {"filename": filename},
         )
 
+class FileReadSheetsError(AppException):
+    def __init__(self, filename: str, details: Optional[Dict[str, Any]] = None):
+        super().__init__(
+            message=f"Error reading file '{filename}' missing obligatories sheets.",
+            error_code="FILE_003",
+            status_code=400,
+            details=details or {"filename": filename},
+        )
 
 #? =========================
 #? CONFIGURATION ERRORS

@@ -11,10 +11,6 @@ class Config:
         "APP_ENV"
     ]
 
-    DB_ENV_VARS: Dict[str, str] = {
-        "erc": "DB_ERC_URI"
-    }
-
     ALLOWED_ORIGINS: List[str] = []
     ALLOWED_HOSTS: List[str] = ["*"]
 
@@ -49,7 +45,8 @@ class DevelopmentConfig(Config):
     ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
 
     DB_ENV_VARS = {
-        "erc": "DB_ERC_URI"
+        "erc": "DB_ERC_URI",
+        "ejecucion_presupuestal": "DB_EP_URI"
     }
 
 class ProductionConfig(Config):
@@ -64,4 +61,5 @@ class ProductionConfig(Config):
 
     DB_ENV_VARS = {
         "erc": "DB_ERC_URI",
+        "ejecucion_presupuestal": "DB_EP_URI"
     }

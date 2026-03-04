@@ -43,6 +43,8 @@ class BaseTransformer(ABC):
             # Remover acentos
             col = unicodedata.normalize("NFD", col)
             col = "".join(c for c in col if unicodedata.category(c) != "Mn")
+            # Eliminar saltos de línea y retornos de carro
+            col = col.replace("\n", " ").replace("\r", " ")
             # Convertir a minúsculas y reemplazar espacios
             col = col.strip().lower().replace(" ", "_")
             return col
