@@ -6,7 +6,7 @@ from .transformers import (
     PaisesTransformer,
 )
 from utils.uploader import upload_dataframe, full_reload_dataframe
-from core.db_manager import DBManager
+from core.database import DBManager
 import polars as pl
 
 ALIAS = "erc"

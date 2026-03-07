@@ -1,7 +1,6 @@
 from .transform import EjecucionPresupuestalTransformer
 from utils.uploader import upload_dataframe
-from core.db_manager import DBManager
-import polars as pl
+from core.database import DBManager
 from utils.loader_file import load_all_sheets
 from fastapi import UploadFile
 

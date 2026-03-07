@@ -1,6 +1,6 @@
 from .base_transformer import BaseTransformer
-from core.db_manager import DBManager
-from core.exceptions import DatabaseInsertError, DatabaseDeleteError
+from core.database import DBManager
+from core.exceptions import DatabaseInsertError
 from sqlalchemy import text
 import polars as pl
 
