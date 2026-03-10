@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, File, Request, UploadFile
-from  utils.schema import UploadResponse
+from  app.utils.schema import UploadResponse
 from .service import (
     turismo_service,
     inversion_service,
@@ -7,7 +7,7 @@ from .service import (
     bienes_service,
     paises_service
     )
-from utils.loader_file import load_file
+from app.utils.loader_file import load_file
 
 router = APIRouter()
 

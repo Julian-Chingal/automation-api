@@ -1,4 +1,4 @@
-from utils.base_transformer import BaseTransformer
+from app.utils.base_transformer import BaseTransformer
 import polars as pl
 
 class PaisesTransformer(BaseTransformer):

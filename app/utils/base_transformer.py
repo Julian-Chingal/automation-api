@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from core.exceptions import (
+from app.core.exceptions import (
     AppException,
     TransformationError,
     MissingSourceColumnsError,

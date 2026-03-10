@@ -4,7 +4,7 @@ from threading import Lock
 from typing import Dict
 import logging
 
-from core.exceptions import DatabaseAliasNotRegisteredError
+from .exceptions import DatabaseAliasNotRegisteredError
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.engine import Engine
 from sqlalchemy import create_engine

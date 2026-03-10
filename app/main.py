@@ -2,12 +2,12 @@ from contextlib import asynccontextmanager
 import logging
 import sys
 
-from core.handlers import register_exception_handlers
-from core.logger import configure_logging
-from core.security import api_key_auth
-from core.database import db_manager
-from core.settings import settings
-from api.v1.api import api_router
+from app.core.handlers import register_exception_handlers
+from app.core.logger import configure_logging
+from app.core.security import api_key_auth
+from app.core.database import db_manager
+from app.core.settings import settings
+from app.api.v1.api import api_router
 
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from fastapi.middleware.cors import CORSMiddleware

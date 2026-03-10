@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, File, Request, UploadFile
-from utils.schema import UploadResponse
+from app.utils.schema import UploadResponse
 from .service import ejecucion_presupuestal_service
 
 router = APIRouter()

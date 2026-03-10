@@ -1,6 +1,6 @@
 from fastapi import APIRouter
-from modules.erc.router import router as erc_router
-from modules.ep.router import router as ep_router
+from app.modules.erc.router import router as erc_router
+from app.modules.ep.router import router as ep_router
 
 api_router = APIRouter()
 
