@@ -6,3 +6,7 @@ class UploadResponse(BaseModel):
     rows_uploaded: int
     destination_table: str
     detail: list[dict] | None = None
+
+class HealthResponse(BaseModel):
+    status: bool
+    message: str
