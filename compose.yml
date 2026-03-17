@@ -6,3 +6,10 @@ services:
       - .env
     ports:
       - "${PORT:-8000}:${PORT:-8000}"
+
+networks:
+  default:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.200.0.0/16
