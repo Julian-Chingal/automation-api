@@ -3,7 +3,7 @@ from app.utils.schema import HealthResponse
 
 router = APIRouter()
 
-@router.post("/", response_model=HealthResponse, description="Ruta para checar el estado del servicio")
+@router.post("/check",response_model=HealthResponse, description="Ruta para checar el estado del servicio")
 async def health_check():
     try:
         return HealthResponse(
