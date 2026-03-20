@@ -20,7 +20,7 @@ class Settings(BaseSettings):
     PORT: int
 
     # Environment
-    APP_ENV:Literal["DEV", "PROD"]
+    APP_ENV:Literal["DEV", "QA", "PROD"]
 
     # Cors
     CORS_ORIGINS: list
