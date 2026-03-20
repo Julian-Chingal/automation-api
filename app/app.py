@@ -74,4 +74,8 @@ def create_app() -> FastAPI:
 
     return app
 
-app = create_app()
+try:
+    app = create_app()
+except Exception as e:
+    logger.critical(f"Fatal error while starting FastAPI: {e}")
+    sys.exit(1)

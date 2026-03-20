@@ -17,6 +17,7 @@ class Settings(BaseSettings):
     APPLICATION_SUMMARY:str
     APPLICATION_DESCRIPTION:str
     APPLICATION_VERSION:str
+    PORT: int
 
     # Environment
     APP_ENV:Literal["DEV", "PROD"]
